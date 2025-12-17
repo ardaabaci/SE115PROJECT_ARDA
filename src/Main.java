@@ -1,4 +1,3 @@
-// Main.java — Students version
 import java.io.*;
 import java.util.*;
 import java.nio.file.Paths;
@@ -12,9 +11,9 @@ public class Main {
             "July","August","September","October","November","December"};
     static int[][][] data = new int[MONTHS][DAYS][COMMS];
 
-    // ======== REQUIRED METHOD LOAD DATA (Students fill this) ========
+
     public static void loadData() {
-        for (int i = 0; i < months.length; i++) {
+        for (int i=0; i<months.length; i++) {
             String filename = "Data_Files/" + months[i] + ".txt";
             Scanner sc = null;
             try {
@@ -34,17 +33,17 @@ public class Main {
                         continue;
                     }
                     String comm = parts[1].trim();
-                    if (day < 1 || day > DAYS) continue;
+                    if (day<1 || day>DAYS) continue;
                     int commIndex = -1;
-                    for (int m = 0; m < commodities.length; m++) {
+                    for (int m=0; m<commodities.length; m++) {
 
                         if (commodities[m].equals(comm)) {
-                            commIndex = m;
+                            commIndex=m;
                             break;
                         }
                     }
                     if (commIndex != -1) {
-                        data[i][day - 1][commIndex] = profit;
+                        data[i][day-1][commIndex] = profit;
                     }
                 }
             } catch (Exception e) {
@@ -52,16 +51,24 @@ public class Main {
                 if (sc != null) {
                     sc.close();
                 }
-            }}}
+            }
+        }
+    }
 
-    // ======== 10 REQUIRED METHODS (Students fill these) ========
 
     public static String mostProfitableCommodityInMonth(int month) {
         return "DUMMY";
     }
 
     public static int totalProfitOnDay(int month, int day) {
-        return 1234;
+        if (month < 0 || month >= MONTHS || day<1 || day>DAYS) {
+            return -99999;
+        }
+            int sum=0;
+            for (int i=0; i<COMMS; i++) {
+                sum+=data[month][day - 1][i];
+            }
+            return sum;
     }
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
@@ -69,8 +76,22 @@ public class Main {
     }
 
     public static int bestDayOfMonth(int month) {
-        return 1234;
-    }
+        if (month < 0 || month >= MONTHS) {
+            return -1;
+        }
+        int maxProfit = Integer.MIN_VALUE;
+        int bestDay = 1;
+
+        for (int i=1; i <= DAYS; i++) {
+            int dailyTotal = 0;
+
+        for (int j=0; j < COMMS; j++) {
+            dailyTotal += data[month][i - 1][j];
+        }
+            if (dailyTotal > maxProfit) {
+                maxProfit = dailyTotal;
+                bestDay = i;}}
+        return bestDay;}
 
     public static String bestMonthForCommodity(String comm) {
         return "DUMMY";
