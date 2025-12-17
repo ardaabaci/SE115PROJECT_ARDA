@@ -57,7 +57,24 @@ public class Main {
 
 
     public static String mostProfitableCommodityInMonth(int month) {
-        return "DUMMY";
+        if (month<0 || month>=MONTHS) {
+            return "INVALID_MONTH";
+        }
+        int maxProfit = Integer.MIN_VALUE;
+        String bestComm = "";
+
+        for (int i=0; i<COMMS; i++) {
+            int monthlyTotal = 0;
+
+            for (int j=0; j<DAYS; j++) {
+                monthlyTotal += data[month][j][i];
+            }
+
+            if (monthlyTotal > maxProfit) {
+                maxProfit = monthlyTotal;
+                bestComm = commodities[i];
+            }}
+        return bestComm + " " + maxProfit;
     }
 
     public static int totalProfitOnDay(int month, int day) {
@@ -71,9 +88,31 @@ public class Main {
             return sum;
     }
 
-    public static int commodityProfitInRange(String commodity, int from, int to) {
-        return 1234;
-    }
+    public static int commodityProfitInRange(String commodity, int fromDay, int toDay){
+        if (commodity == null) return -99999;
+        if (fromDay<1 || fromDay>DAYS || toDay<1 || toDay>DAYS || fromDay>toDay) {
+            return -99999;
+        }
+        int commIndex = -1;
+        for (int i = 0; i < commodities.length; i++) {
+            if (commodities[i].equals(commodity)) {
+                commIndex = i;
+                break;
+            }
+        }
+        if (commIndex == -1) {
+            return -99999;
+        }
+        int totalProfit = 0;
+
+        for (int i=0; i< MONTHS; i++) {
+            for (int j=fromDay; j<=toDay; j++) {
+                totalProfit += data[i][j-1][commIndex];
+
+        }
+
+            }return totalProfit;}
+
 
     public static int bestDayOfMonth(int month) {
         if (month < 0 || month >= MONTHS) {
