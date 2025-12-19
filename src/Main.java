@@ -200,7 +200,7 @@ public class Main {
             return -1;
         }
         int cIndex = -1;
-        for(int i = 0; i < commodities.length; i++) {
+        for(int i=0; i<commodities.length; i++) {
             if(commodities[i].equals(comm)) {
                 cIndex = i;
                 break;
@@ -210,8 +210,8 @@ public class Main {
             return -1;
         }
         int count = 0;
-        for(int i = 0; i < MONTHS; i++) {
-            for(int j = 0; j < DAYS; j++) {
+        for(int i=0; i<MONTHS; i++) {
+            for(int j=0; j<DAYS; j++) {
                 if(data[i][j][cIndex] > threshold) {
                     count++;
                 }
@@ -220,7 +220,29 @@ public class Main {
         return count;
     }
     public static int biggestDailySwing(int month) {
-        return 1234;
+        if(month < 0 || month >= MONTHS) {
+            return -99999;
+        }
+        int maxSwing = 0;
+
+        for(int i=0; i<DAYS-1; i++) {
+            int currentDayTotal = 0;
+            int nextDayTotal = 0;
+
+            for(int j=0; j<COMMS; j++) {
+                currentDayTotal += data[month][i][j];
+                nextDayTotal += data[month][i + 1][j];
+            }
+            int difference = currentDayTotal - nextDayTotal;
+
+            if(difference < 0) {
+                difference = -difference;
+            }
+            if(difference > maxSwing) {
+                maxSwing = difference;
+            }
+        }
+        return maxSwing;
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
@@ -228,7 +250,25 @@ public class Main {
     }
 
     public static String bestWeekOfMonth(int month) {
-        return "DUMMY";
+        if(month < 0 || month >= MONTHS) {
+            return "INVALID_MONTH";
+        }
+        int maxWeekProfit = Integer.MIN_VALUE;
+        int bestWeekNumber = 1;
+        for(int w=0; w<4; w++) {
+            int weekTotal = 0;
+
+            for(int d=w * 7; d<(w + 1)*7; d++) {
+                for(int c=0; c < COMMS; c++) {
+                    weekTotal += data[month][d][c];
+                }
+            }
+
+            if(weekTotal > maxWeekProfit) {
+                maxWeekProfit = weekTotal;
+                bestWeekNumber = w + 1;
+    }}
+        return "Week " + bestWeekNumber;
     }
 
     public static void main(String[] args) {
