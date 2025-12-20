@@ -45,7 +45,7 @@ public class Main {
                     if(commIndex != -1) {
                         data[i][day-1][commIndex] = profit;
                     }
-                }
+                    }
             } catch (Exception e) {
             } finally {
                 if(sc != null) {
@@ -111,7 +111,8 @@ public class Main {
 
         }
 
-            }return totalProfit;}
+            }
+        return totalProfit;}
 
 
     public static int bestDayOfMonth(int month) {
@@ -246,8 +247,42 @@ public class Main {
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
-        return "DUMMY is better by 1234";
+        if(c1 == null || c2 == null) {
+            return "INVALID_COMMODITY";
+        }
+        int ind1 = -1;
+        int ind2 = -1;
+
+        for (int i=0; i<commodities.length; i++) {
+            if(commodities[i].equals(c1)) {
+                ind1=i;
+            }
+            if(commodities[i].equals(c2)) {
+                ind2 = i;
+            }
+        }
+        if(ind1 == -1 || ind2 == -1) {
+            return "INVALID_COMMODITY";
+        }
+        int total1 = 0;
+        int total2 = 0;
+
+        for(int i=0; i < MONTHS; i++) {
+            for(int j=0; j < DAYS; j++) {
+                total1 += data[i][j][ind1];
+                total2 += data[i][j][ind2];
+            }
+        }
+        if (total1 > total2) {
+            return c1 + " is better by " + (total1 - total2);
+        } else if (total2 > total1) {
+            return c2 + " is better by " + (total2 - total1);
+        } else {
+            return "Equal";
+        }
     }
+
+
 
     public static String bestWeekOfMonth(int month) {
         if(month < 0 || month >= MONTHS) {
